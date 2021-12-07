@@ -6,10 +6,18 @@ myVector::myVector() : size_(0), capacity_(1)
 	arr = new int[1];
 }
 
-//создаёт массив на size элементов ёмкостью size * 2 
+//конструктор с одним аргументом. создаёт массив на size элементов ёмкостью size * 2 
 myVector::myVector(int size) : size_(size), capacity_(size*2)
 {
 	arr = new int[capacity_];
+}
+
+myVector::myVector(const myVector& v)
+{
+	size_ = v.size();
+	arr = new T[size_];
+	for (int i = 0; i < size_; ++i)
+		arr[i] = v[i];
 }
 
 //конструктор со списком инициализации, размер массива совпадает с размером списка, ёмкость - size * 2 
@@ -23,7 +31,7 @@ myVector::myVector(std::initializer_list<int> list) : size_(list.size()), capaci
 	}
 }
 
-void myVector::push_back(int value)
+void myVector::push_back(T value)
 {
 	if (size_ == capacity_)
 	{
@@ -55,7 +63,7 @@ void myVector::print()
 //последовательно проходим по всем элементам массива и ищем элемент, который не попадает в заданный интервал. (1)
 //После нахождения такого элемента просматриваем все следующие за ним элементы в поисках входящего в интервал. (2)
 //Как только нашли - меняем элементы (не входящий и входящий в интервал) местами (3)
-void myVector::doTask(int lowerBound, int upperBound)
+void myVector::doTask(T lowerBound, T upperBound)
 {
 	for (int i = 0; i < size_; ++i)
 		if ((arr[i] < lowerBound) || (arr[i] > upperBound)) //1
